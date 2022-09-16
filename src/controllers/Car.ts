@@ -9,8 +9,6 @@ export default class CarController {
     req: Request, 
     res: Response<ICar>,
   ) {
-    // const { model, year, color, buyValue, seatsQty, doorsQty } = req.body;
-    // const newCar = { model, year, color, buyValue, seatsQty, doorsQty };
     const results = await this._service.create(req.body);
     return res.status(201).json(results);
   }
@@ -35,9 +33,7 @@ export default class CarController {
     req: Request,
     res: Response<ICar | null>,
   ) {
-    const { model, year, color, buyValue, seatsQty, doorsQty } = req.body;
-    const payload = { model, year, color, buyValue, seatsQty, doorsQty };
-    const result = await this._service.update(req.params.id, payload);
+    const result = await this._service.update(req.params.id, req.body);
     return res.status(200).json(result);
   }
 
