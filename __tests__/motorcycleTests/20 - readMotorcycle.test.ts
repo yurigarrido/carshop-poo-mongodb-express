@@ -7,7 +7,7 @@ import * as motorcycleMock from '../utils/MotorcyclesMock';
 
 import app from '../../src/app';
 
-describe('20 - Crie uma rota para o endpoint /motorcycles onde seja possível listar todas as motos registradas', () => {
+describe.skip('20 - Crie uma rota para o endpoint /motorcycles onde seja possível listar todas as motos registradas', () => {
   beforeAll(async () => {
     await connection();
   });

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ICar from '../interfaces/ICar';
+import { ICar } from '../interfaces/ICar';
 import IService from '../interfaces/IService';
 
 export default class CarController {
@@ -9,9 +9,9 @@ export default class CarController {
     req: Request, 
     res: Response<ICar>,
   ) {
-    const { material, color } = req.body;
-    const frame = { material, color };
-    const results = await this._service.create(frame);
+    // const { model, year, color, buyValue, seatsQty, doorsQty } = req.body;
+    // const newCar = { model, year, color, buyValue, seatsQty, doorsQty };
+    const results = await this._service.create(req.body);
     return res.status(201).json(results);
   }
 

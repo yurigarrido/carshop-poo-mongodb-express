@@ -1,6 +1,6 @@
-import IModel from '../interfaces/IModel';
 import { ErrorTypes } from '../errors/catalog';
-import ICar, { carZodSchema } from '../interfaces/ICar';
+import { carZodSchema, ICar } from '../interfaces/ICar';
+import { IModel } from '../interfaces/IModel';
 import IService from '../interfaces/IService';
 
 class CarService implements IService<ICar> {
@@ -10,13 +10,14 @@ class CarService implements IService<ICar> {
     this._carModel = model;
   }
 
-  public async create(obj:unknown):Promise<ICar> {
+  public async create(obj:ICar):Promise<ICar> {
+    console.log(obj);
     const parsed = carZodSchema.safeParse(obj);
 
     if (!parsed.success) {
       throw parsed.error;
     }
-    return this._carModel.create(parsed.data);
+    return this._carModel.create(obj);
   }
 
   public async read(): Promise<ICar[]> {
