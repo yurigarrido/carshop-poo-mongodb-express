@@ -9,7 +9,6 @@ const errorHandler: ErrorRequestHandler = (
   _next,
 ) => {
   // o instanceof verifica se esse é erro é uma instância do ZodError
-  console.log(err instanceof ZodError);
   if (err instanceof ZodError) {
     // se for nós sabemos que é um erro de validação e podemos usar o status 400 e a própria mensagem do zod para retornar a response
     return res.status(400).json({ message: err.issues });
