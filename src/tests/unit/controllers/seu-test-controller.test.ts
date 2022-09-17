@@ -19,6 +19,9 @@ describe('Frame Controller', () => {
   before(() => {
     sinon.stub(carService, 'create').resolves(carMock);
     sinon.stub(carService, 'readOne').resolves(carMock);
+    sinon.stub(carService, 'read').resolves([carMock]);
+    sinon.stub(carService, 'update').resolves(carMock);
+    sinon.stub(carService, 'delete').resolves(carMock);
 
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
@@ -86,7 +89,7 @@ describe('Frame Controller', () => {
       req.body = {
         _id: "4edd40c86762e0fb12000003",
       };
-      await carController.update(req, res);
+      await carController.delete(req, res);
 
       expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
       expect((res.json as sinon.SinonStub).calledWith(carMockWithId)).to.be.true;
