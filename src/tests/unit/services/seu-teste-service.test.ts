@@ -61,8 +61,6 @@ describe("car Service", () => {
       } catch (err: any) {
         error = err;
       }
-
-      // expect(error).to.be.instanceOf(ZodError);
     });
   });
 
@@ -80,18 +78,6 @@ describe("car Service", () => {
 
       expect(carCreated).to.be.deep.equal(carMockWithId);
     });
-
-    it("Failure", async () => {
-      let error;
-      try {
-        await carService.update('4edd40c86762e0fb10test', carMockUpdated);
-      } catch (err: any) {
-        error = err;
-      }
-
-      // expect(error).to.be.instanceOf(ZodError);
-
-    });
   });
 
   describe("delete a car", () => {
@@ -99,17 +85,6 @@ describe("car Service", () => {
       const carCreated = await carService.delete('4edd40c86762e0fb12000003');
 
       expect(carCreated).to.be.deep.equal(carMockWithId);
-    });
-
-    it("Failure", async () => {
-      let error;
-      try {
-        await carService.delete('4edd40c86762e0fb10test');
-      } catch (err: any) {
-        error = err;
-      }
-
-      // expect(error).to.be.instanceOf(ZodError);
     });
   });
 });
