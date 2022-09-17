@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import * as sinon from "sinon";
 import { ZodError } from "zod";
-import { ErrorTypes } from "../../../errors/catalog";
 import CarModel from "../../../models/Car";
 import CarService from "../../../services/Car";
 import { carMock, carMockUpdated, carMockWithId } from "../../mocks/car";
@@ -12,13 +11,12 @@ describe("car Service", () => {
 
   before(() => {
     sinon.stub(carModel, "create").resolves(carMockWithId);
-    sinon
-      .stub(carModel, "readOne")
-      .onCall(0)
-      .resolves(carMockWithId)
-      .onCall(1)
-      .resolves(null);
+    sinon.stub(carModel, "read").resolves([carMockWithId]);
+    sinon.stub(carModel, "update").resolves(carMockWithId);
+    sinon.stub(carModel, "readOne").resolves(carMockWithId)
+    sinon.stub(carModel, "delete").resolves(carMockWithId)
   });
+
   after(() => {
     sinon.restore();
   });
@@ -29,16 +27,24 @@ describe("car Service", () => {
       expect(carCreated).to.be.deep.equal(carMockWithId);
     });
 
-    // it("Failure", async () => {
-    //   let error;
-    //   try {
-    //     await carService.create({});
-    //   } catch (err) {
-    //     error = err;
-    //   }
+    it("Failure", async () => {
+      let error;
+      try {
+        await carService.create({
+          model: "Fe",
+          year: 1963,
+          color: "re",
+          buyValue: 3500000,
+          seatsQty: 2,
+          doorsQty: 2
+        });
+      } catch (err) {
+        error = err;
+      }
 
-    //   expect(error).to.be.instanceOf(ZodError);
-    // });
+      expect(error).to.be.instanceOf(ZodError);
+
+    });
   });
 
   describe("ReadOne car", () => {
@@ -56,8 +62,7 @@ describe("car Service", () => {
         error = err;
       }
 
-      expect(error, "error should be defined").not.to.be.undefined;
-      expect(error.message).to.be.deep.equal(ErrorTypes.EntityNotFound);
+      expect(error).to.be.instanceOf(ZodError);
     });
   });
 
@@ -66,18 +71,6 @@ describe("car Service", () => {
       const carCreated = await carService.read();
 
       expect(carCreated).to.be.deep.equal([carMockWithId]);
-    });
-
-    it("Failure", async () => {
-      let error;
-      try {
-        await carService.read();
-      } catch (err: any) {
-        error = err;
-      }
-
-      expect(error, "error should be defined").not.to.be.undefined;
-      expect(error.message).to.be.deep.equal(ErrorTypes.EntityNotFound);
     });
   });
 
@@ -96,8 +89,8 @@ describe("car Service", () => {
         error = err;
       }
 
-      expect(error, "error should be defined").not.to.be.undefined;
-      expect(error.message).to.be.deep.equal(ErrorTypes.EntityNotFound);
+      expect(error).to.be.instanceOf(ZodError);
+
     });
   });
 
@@ -116,8 +109,7 @@ describe("car Service", () => {
         error = err;
       }
 
-      expect(error, "error should be defined").not.to.be.undefined;
-      expect(error.message).to.be.deep.equal(ErrorTypes.EntityNotFound);
+      expect(error).to.be.instanceOf(ZodError);
     });
   });
 });
